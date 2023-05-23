@@ -44,6 +44,7 @@ mutable struct InPort <: AbstractInPort
         p = new()
         p.var = SymbolicValue{Auto}(gensym())
         p.parent = UndefBlock()
+        p.line = UndefLine()
         p
     end
 
@@ -51,6 +52,7 @@ mutable struct InPort <: AbstractInPort
         p = new()
         p.var = SymbolicValue{Auto}(name)
         p.parent = UndefBlock()
+        p.line = UndefLine()
         p
     end
 
@@ -58,6 +60,7 @@ mutable struct InPort <: AbstractInPort
         p = new()
         p.var = SymbolicValue{Auto}(gensym())
         p.parent = UndefBlock()
+        p.line = UndefLine()
         p
     end
 
@@ -65,6 +68,7 @@ mutable struct InPort <: AbstractInPort
         p = new()
         p.var = SymbolicValue{Tv}(name)
         p.parent = UndefBlock()
+        p.line = UndefLine()
         p
     end
 end
@@ -149,6 +153,15 @@ Get a parent block.
 """
 function get_parent(x::AbstractPort)
     x.parent
+end
+
+"""
+    set_parent!(x::AbstractPort, b::AbstractBlock)
+
+Set a parent block.
+"""
+function set_parent!(x::AbstractPort, b::AbstractBlock)
+    x.parent = b
 end
 
 """

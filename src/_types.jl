@@ -29,6 +29,9 @@ Return a nothing as an instance of default in/out port.
 get_default_inport(b::UndefBlock) = nothing
 get_default_outport(b::UndefBlock) = nothing
 
+abstract type AbstractInlineBlock <: AbstractBlock end
+abstract type AbstractFunctionBlock <: AbstractBlock end
+
 # abstract type AbstractTimeBlock <: AbstractBlock end
 # abstract type AbstractIntegratorBlock <: AbstractBlock end
 # abstract type AbstractSystemBlock <: AbstractBlock end

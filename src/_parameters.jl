@@ -53,5 +53,5 @@ expr_refvalue(x::Any) = x
 
 Create Expr to set x = expr.
 """
-expr_setvalue(x::SymbolicValue{Auto}, expr) = Expr(:(=), x.name, expr)
-expr_setvalue(x::SymbolicValue{Tv}, expr) where Tv = Expr(:(=), x.name, Expr(:call, Symbol(Tv), expr))
+expr_setvalue(x::SymbolicValue{Auto}, expr; op=:(=)) = Expr(op, x.name, expr)
+expr_setvalue(x::SymbolicValue{Tv}, expr; op=:(=)) where Tv = Expr(op, x.name, Expr(:call, Symbol(Tv), expr))

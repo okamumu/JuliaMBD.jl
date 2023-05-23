@@ -31,6 +31,13 @@ mutable struct Line <: AbstractLine
 end
 
 """
+   UndefLine
+
+A type meaning Undef
+"""
+struct UndefLine <: AbstractLine end
+
+"""
     get_var(x::AbstractLine)
 
 Get a symbolicvar.
