@@ -1,6 +1,4 @@
-using JuliaMBD
-using Test
 
-@testset "JuliaMBD.jl" begin
-    # Write your tests here.
-end
+include("_test_parameters.jl")
+include("_test_ports.jl")
+include("_test_lines.jl")

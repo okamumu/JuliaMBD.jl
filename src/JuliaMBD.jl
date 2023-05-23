@@ -1,5 +1,8 @@
 module JuliaMBD
 
-# Write your package code here.
+include("_types.jl")
+include("_parameters.jl")
+include("_ports.jl")
+include("_lines.jl")
 
 end
