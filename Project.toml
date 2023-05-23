@@ -1,0 +1,7 @@
+name = "JuliaMBD"
+uuid = "d17b483b-5c3f-406e-ad63-5cc475d2d4f8"
+authors = ["Hiroyuki Okamura <okamu@hiroshima-u.ac.jp> and contributors"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.8"
