@@ -14,11 +14,11 @@ Return a nothing as an instance of default in/out port.
 get_default_inport(b::UndefBlock) = nothing
 get_default_outport(b::UndefBlock) = nothing
 
-abstract type AbstractInBlock <: AbstractBlock end
-abstract type AbstractOutBlock <: AbstractBlock end
-abstract type AbstractExprBlock <: AbstractBlock end
-abstract type AbstractInlineBlock <: AbstractBlock end
-abstract type AbstractFunctionBlock <: AbstractBlock end
+## overloads
+
+function Base.show(io::IO, x::AbstractBlock)
+    Base.show(io, "Block($(objectid(x)))")
+end
 
 """
     get_default_inport(b)

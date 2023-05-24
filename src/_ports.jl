@@ -1,15 +1,6 @@
 
 export InPort
 export OutPort
-# export get_name
-# export get_var
-# export get_parent
-# export get_line
-# export get_lines
-# export get_default_inport
-# export get_default_outport
-# export expr_refvalue
-# export expr_setvalue
 
 function Base.show(io::IO, x::AbstractInPort)
     Base.show(io, "InPort($(get_name(x)))")

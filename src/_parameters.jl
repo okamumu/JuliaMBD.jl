@@ -1,9 +1,5 @@
 export Auto
 export SymbolicValue
-# export expr_refvalue
-# export expr_setvalue
-
-# Definition for parameter values
 
 """
      Type Auto

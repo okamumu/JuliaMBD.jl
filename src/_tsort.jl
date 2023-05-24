@@ -48,6 +48,22 @@ function tsort(blks::Vector{AbstractBlock})
     l
 end
 
+function tsort2(blks::Vector{AbstractBlock})
+    l = []
+    check = Dict()
+    for n = blks
+        check[n] = 0
+    end
+    for n = blks
+        if check[n] != 2
+            v = []
+            push!(l, v)
+            _visit(n, check, v)
+        end
+    end
+    l
+end
+
 function _visit(n, check, l)
     if check[n] == 1
         throw(ErrorException("DAG has a closed path"))

@@ -1,3 +1,5 @@
+export ExprBlock
+
 mutable struct ExprBlock <: AbstractExprBlock
     env::Dict{Symbol,Any}
     inports::Vector{AbstractInPort}

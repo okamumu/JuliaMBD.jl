@@ -1,3 +1,5 @@
+export FunctionBlock
+
 mutable struct FunctionBlock <: AbstractFunctionBlock
     env::Dict{Symbol,Any}
     name::Symbol

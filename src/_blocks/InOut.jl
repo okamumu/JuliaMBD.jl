@@ -1,3 +1,5 @@
+export InBlock
+export OutBlock
 
 mutable struct InBlock <: AbstractInBlock
     env::Dict{Symbol,Any}

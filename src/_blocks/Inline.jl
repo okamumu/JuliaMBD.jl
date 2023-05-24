@@ -1,3 +1,5 @@
+export InlineBlock
+
 mutable struct InlineBlock <: AbstractInlineBlock
     env::Dict{Symbol,Any}
     name::Symbol
