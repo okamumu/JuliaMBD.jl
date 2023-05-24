@@ -48,9 +48,9 @@ function get_params(b::AbstractBlock)
     b.params
 end
 
-function get_params(b::AbstractBlock, key::Symbol)
-    b.params[key]
-end
+# function get_params(b::AbstractBlock, key::Symbol)
+#     b.params[key]
+# end
 
 """
     set_params!(b, key, val)
@@ -59,7 +59,17 @@ A function to set params.
 """
 function set_params!(b::AbstractBlock, key::Symbol, val::Any)
     b.env[key] = val
-    b.params[key] = val
+    push!(b.params, (SymbolicValue(key), val))
+end
+
+function set_params!(b::AbstractBlock, key::SymbolicValue, val::Any)
+    b.env[get_name(key)] = val
+    push!(b.params, (key, val))
+end
+
+function set_params!(b::AbstractBlock, key::SymbolicValue)
+    b.env[get_name(key)] = get_name(key)
+    push!(b.params, (key, get_name(key)))
 end
 
 """
@@ -108,4 +118,27 @@ function set_outport!(b::AbstractBlock, key::Symbol, p::AbstractOutPort; default
     end
 end
 
+"""
+   addblock!(blk::AbstractBlockDefinition, b::AbstractBlock)
 
+The function to add a block
+"""
+function addblock!(blk::AbstractBlockDefinition, b::AbstractBlock)
+    push!(blk.blks, b)
+end
+
+function addblock!(blk::AbstractBlockDefinition, b::AbstractInBlock)
+    push!(blk.blks, b)
+    p = get_default_inport(b)
+    set_inport!(blk, get_name(p), p, default=(typeof(blk.default_inport) == UndefInPort))
+end
+
+function addblock!(blk::AbstractBlockDefinition, b::AbstractOutBlock)
+    push!(blk.blks, b)
+    p = get_default_outport(b)
+    set_outport!(blk, get_name(p), p, default=(typeof(blk.default_outport) == UndefOutPort))
+end
+
+function addblock!(blk::AbstractBlockDefinition, b::AbstractSystemBlock)
+    push!(blk.blks, b.blks...)
+end

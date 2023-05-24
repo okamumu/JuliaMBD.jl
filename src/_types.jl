@@ -14,6 +14,7 @@ abstract type AbstractInPort <: AbstractPort end
 abstract type AbstractOutPort <: AbstractPort end
 
 abstract type AbstractBlockDefinition <: AbstractBlock end
+abstract type AbstractSystemBlock <: AbstractBlock end
 
 abstract type AbstractInBlock <: AbstractBlock end
 abstract type AbstractOutBlock <: AbstractBlock end

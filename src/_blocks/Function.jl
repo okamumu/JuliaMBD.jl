@@ -3,7 +3,7 @@ export FunctionBlock
 mutable struct FunctionBlock <: AbstractFunctionBlock
     env::Dict{Symbol,Any}
     name::Symbol
-    params::Dict{Symbol,Any}
+    params::Vector{Tuple{SymbolicValue,Any}}
     inports::Vector{AbstractInPort}
     outports::Vector{AbstractOutPort}
     default_inport::AbstractInPort
@@ -13,7 +13,7 @@ mutable struct FunctionBlock <: AbstractFunctionBlock
         b = new()
         b.env = Dict{Symbol,Any}()
         b.name = name
-        b.params = Dict{Symbol,Any}()
+        b.params = Tuple{SymbolicValue,Any}[]
         b.inports = AbstractInPort[]
         b.outports = AbstractOutPort[]
         b
@@ -42,7 +42,7 @@ function expr(blk::AbstractFunctionBlock)
                 push!(o, expr_setvalue(get_var(line), Expr(:., result, Expr(:quote, k))))
             end
         else
-            push!(args, Expr(:kw, k, get_params(blk, k)))
+            push!(args, Expr(:kw, k, x))
         end
     end
     Expr(:block,

@@ -3,7 +3,7 @@ export InlineBlock
 mutable struct InlineBlock <: AbstractInlineBlock
     env::Dict{Symbol,Any}
     name::Symbol
-    params::Dict{Symbol,Any}
+    params::Vector{Tuple{SymbolicValue,Any}}
     inports::Vector{AbstractInPort}
     outports::Vector{AbstractOutPort}
     default_inport::AbstractInPort
@@ -14,7 +14,7 @@ mutable struct InlineBlock <: AbstractInlineBlock
         b = new()
         b.env = Dict{Symbol,Any}()
         b.name = name
-        b.params = Dict{Symbol,Any}()
+        b.params = Tuple{SymbolicValue,Any}[]
         b.inports = AbstractInPort[]
         b.outports = AbstractOutPort[]
         b.default_inport = UndefInPort()
@@ -48,7 +48,7 @@ function expr(blk::AbstractInlineBlock)
     end
     p = []
     for (k,v) = get_params(blk)
-        push!(p, Expr(:(=), k, v))
+        push!(p, Expr(:(=), get_name(k), v))
     end
     body = blk.expr
     o = []
