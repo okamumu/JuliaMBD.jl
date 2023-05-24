@@ -55,3 +55,11 @@ Create Expr to set x = expr.
 """
 expr_setvalue(x::SymbolicValue{Auto}, expr; op=:(=)) = Expr(op, x.name, expr)
 expr_setvalue(x::SymbolicValue{Tv}, expr; op=:(=)) where Tv = Expr(op, x.name, Expr(:call, Symbol(Tv), expr))
+
+"""
+   expr_defvalue(x)
+
+Create Expr to define the symbolic value.
+"""
+expr_defvalue(x::SymbolicValue{Tv}) where Tv = Expr(:(::), x.name, Symbol(Tv))
+expr_defvalue(x::SymbolicValue{Auto}) = x.name

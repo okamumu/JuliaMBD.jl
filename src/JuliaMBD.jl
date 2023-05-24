@@ -6,6 +6,8 @@ include("_ports.jl")
 include("_lines.jl")
 
 include("_tsort.jl")
+include("_defblock.jl")
+
 include("_blocks.jl")
 include("_blocks/Gain.jl")
 

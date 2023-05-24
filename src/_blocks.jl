@@ -6,7 +6,6 @@ mutable struct InlineBlock <: AbstractInlineBlock
     params::Dict{Symbol,Any}
     inports::Dict{Symbol,AbstractInPort}
     outports::Dict{Symbol,AbstractOutPort}
-    body::Dict{Symbol,AbstractBlock}
 
     function InlineBlock(type::Symbol)
         b = new()
@@ -14,7 +13,6 @@ mutable struct InlineBlock <: AbstractInlineBlock
         b.params = Dict{Symbol,Any}()
         b.inports = Dict{Symbol,AbstractInPort}()
         b.outports = Dict{Symbol,AbstractOutPort}()
-        b.body = Dict{Symbol,AbstractBlock}()
         b
     end
 end
@@ -24,7 +22,6 @@ mutable struct FunctionBlock <: AbstractFunctionBlock
     params::Dict{Symbol,Any}
     inports::Dict{Symbol,AbstractInPort}
     outports::Dict{Symbol,AbstractOutPort}
-    body::Dict{Symbol,AbstractBlock}
 
     function FunctionBlock(type::Symbol)
         b = new()
@@ -32,7 +29,6 @@ mutable struct FunctionBlock <: AbstractFunctionBlock
         b.params = Dict{Symbol,Any}()
         b.inports = Dict{Symbol,AbstractInPort}()
         b.outports = Dict{Symbol,AbstractOutPort}()
-        b.body = Dict{Symbol,AbstractBlock}()
         b
     end
 end
@@ -145,15 +141,5 @@ function expr_call(blk::AbstractFunctionBlock)
         Expr(:(=), result, Expr(:call, blk.type, i...)),
         o...
     )
-end
-
-"""
-    expr_func
-
-Expr for definition of function
-"""
-function expr_func(blk::AbstractFunctionBlock)
-    body = [expr_call(b) for b = tsort(blk)]
-    Expr(:block, body...)
 end
 
