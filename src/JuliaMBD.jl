@@ -7,12 +7,12 @@ include("_lines.jl")
 
 include("_tsort.jl")
 include("_block_common.jl")
-# include("_defblock.jl")
-
 include("_blocks/Expr.jl")
 include("_blocks/InOut.jl")
 include("_blocks/Function.jl")
 include("_blocks/Inline.jl")
+
+include("_block_definition_common.jl")
 include("_blocks/BlockInlineDefinition.jl")
 include("_blocks/BlockFunctionDefinition.jl")
 
