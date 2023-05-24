@@ -7,6 +7,7 @@ A struct to create the following functions:
 - constructor
 """
 mutable struct BlockInlineDefinition <: AbstractBlockDefinition
+    env::Dict{Symbol,Any}
     name::Symbol
     parameters::Vector{Tuple{SymbolicValue,Any}}
     inports::Vector{AbstractInPort}
@@ -16,7 +17,8 @@ mutable struct BlockInlineDefinition <: AbstractBlockDefinition
     blks::Vector{AbstractBlock}
 
     function BlockInlineDefinition(name::Symbol)
-        new(name,
+        new(Dict{Symbol,Any}(),
+            name,
             Tuple{SymbolicValue,Any}[],
             AbstractInPort[],
             AbstractOutPort[],

@@ -8,6 +8,7 @@ A struct to create the following functions:
 - function
 """
 mutable struct BlockFunctionDefinition <: AbstractBlockDefinition
+    env::Dict{Symbol,Any}
     name::Symbol
     parameters::Vector{Tuple{SymbolicValue,Any}}
     inports::Vector{AbstractInPort}
@@ -17,7 +18,8 @@ mutable struct BlockFunctionDefinition <: AbstractBlockDefinition
     blks::Vector{AbstractBlock}
 
     function BlockFunctionDefinition(name::Symbol)
-        new(name,
+        new(Dict{Symbol,Any}(),
+            name,
             Tuple{SymbolicValue,Any}[],
             AbstractInPort[],
             AbstractOutPort[],

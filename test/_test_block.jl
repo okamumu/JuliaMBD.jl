@@ -3,7 +3,7 @@ module TestBlocks
 using JuliaMBD
 using JuliaMBD: ExprBlock, BlockInlineDefinition, BlockFunctionDefinition, InBlock, OutBlock, InlineBlock, FunctionBlock
 using JuliaMBD: addparameter!, set_params!, set_parent!, set_inport!, set_outport!, expr, addblock!, set_expr!
-using JuliaMBD: _addinport!, _addoutport!, _compile_constructor, _compile_function
+using JuliaMBD: _compile_constructor, _compile_function
 using JuliaMBD: next
 using Test
 

@@ -53,34 +53,6 @@ function get_params(b::AbstractBlock, key::Symbol)
 end
 
 """
-    get_inports(b)
-    get_inports(b, key)
-
-A function to get inports.
-"""
-function get_inports(b::AbstractBlock)
-    b.inports
-end
-
-function get_inports(b::AbstractBlock, key::Symbol)
-    b.inports[key]
-end
-
-"""
-    get_outports(b)
-    get_outports(b, key)
-
-A function to get outports.
-"""
-function get_outports(b::AbstractBlock)
-    b.outports
-end
-
-function get_outports(b::AbstractBlock, key::Symbol)
-    b.outports[key]
-end
-
-"""
     set_params!(b, key, val)
 
 A function to set params.
@@ -88,6 +60,24 @@ A function to set params.
 function set_params!(b::AbstractBlock, key::Symbol, val::Any)
     b.env[key] = val
     b.params[key] = val
+end
+
+"""
+    get_inports(b)
+
+A function to get inports.
+"""
+function get_inports(b::AbstractBlock)
+    b.inports
+end
+
+"""
+    get_outports(b)
+
+A function to get outports.
+"""
+function get_outports(b::AbstractBlock)
+    b.outports
 end
 
 """
