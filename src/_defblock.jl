@@ -1,6 +1,4 @@
 
-abstract type AbstractBlockDefinition end
-
 """
     BlockFunctionDefinition
 

@@ -26,20 +26,26 @@ A function to get Expr
 function expr(blk::AbstractFunctionBlock)
     result = gensym()
     i = []
-    for p = get_inports(blk)
-        line = get_line(p)
-        if typeof(line) != UndefLine
-            push!(i, expr_setvalue(get_var(p), expr_refvalue(get_var(line))))
-        end
-    end
     o = []
-    for p = get_outports(blk)
-        for line = get_lines(p)
-            push!(o, expr_setvalue(get_var(line), Expr(:., result, Expr(:quote, expr_refvalue(get_var(p))))))
+    args = []
+    for (k,x) = blk.env
+        if typeof(x) <: AbstractInPort
+            line = get_line(x)
+            if typeof(line) != UndefLine
+                push!(i, expr_setvalue(get_var(x), expr_refvalue(get_var(line))))
+            end
+            push!(args, Expr(:kw, k, get_name(x)))
+        elseif typeof(x) <: AbstractOutPort
+            for line = get_lines(x)
+                push!(o, expr_setvalue(get_var(line), Expr(:., result, Expr(:quote, k))))
+            end
+        else
+            push!(args, Expr(:kw, k, get_params(blk, k)))
         end
     end
     Expr(:block,
-        Expr(:(=), result, Expr(:call, blk.type, i...)),
+        i...,
+        Expr(:(=), result, Expr(:call, Symbol(blk.name, "Function"), args...)),
         o...
     )
 end

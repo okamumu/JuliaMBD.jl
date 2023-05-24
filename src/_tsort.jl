@@ -21,7 +21,7 @@ Get output blocks
 """
 function next(blk::AbstractBlock)
     b = AbstractBlock[]
-    for (_,p) = get_outports(blk)
+    for p = get_outports(blk)
         for l = get_lines(p)
             push!(b, get_parent(get_target(l)))
         end

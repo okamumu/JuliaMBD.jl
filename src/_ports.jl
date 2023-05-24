@@ -20,6 +20,28 @@ function Base.show(io::IO, x::AbstractOutPort)
 end
 
 """
+     UndefInPort
+     UndefOutPort
+
+A struct of UndefiedPort
+"""
+struct UndefInPort <: AbstractInPort end
+struct UndefOutPort <: AbstractOutPort end
+
+"""
+    get_default_inport(b::UndefInPort)
+    get_default_inport(b::UndefOutPort)
+    get_default_outport(b::UndefInPort)
+    get_default_outport(b::UndefOutPort)
+
+Return a nothing as an instance of default in/out port.
+"""
+get_default_inport(b::UndefInPort) = nothing
+get_default_outport(b::UndefInPort) = nothing
+get_default_inport(b::UndefOutPort) = nothing
+get_default_outport(b::UndefOutPort) = nothing
+
+"""
     InPort <: AbstractInPort
 
 The mutable struct for InPort. InPort corresponds to an argument of the function of block. The members are

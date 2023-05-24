@@ -1,6 +1,13 @@
 export Line
 
 """
+   UndefLine
+
+A type meaning Undef
+"""
+struct UndefLine <: AbstractLine end
+
+"""
    Line
 
 A mutable struct of Line to connect from outport to inport.
@@ -29,13 +36,6 @@ mutable struct Line <: AbstractLine
         line
     end
 end
-
-"""
-   UndefLine
-
-A type meaning Undef
-"""
-struct UndefLine <: AbstractLine end
 
 """
     get_var(x::AbstractLine)

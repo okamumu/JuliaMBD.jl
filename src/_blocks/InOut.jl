@@ -58,22 +58,47 @@ end
 A function to get Expr
 """
 function expr(blk::AbstractInBlock)
+    i = []
+    for p = get_inports(blk)
+        line = get_line(p)
+        if typeof(line) != UndefLine
+            push!(i, expr_setvalue(get_var(p), expr_refvalue(get_var(line))))
+        end
+    end
+    b = []
+    for pin = get_inports(blk)
+        for pout = get_outports(blk)
+            push!(b, expr_setvalue(get_var(pout), expr_refvalue(get_var(pin))))
+        end
+    end
     o = []
     for p = get_outports(blk)
         for line = get_lines(p)
             push!(o, expr_setvalue(get_var(line), expr_refvalue(get_var(p))))
         end
     end
-    Expr(:block, o...)
+    Expr(:block, i..., b..., o...)
 end
 
 function expr(blk::AbstractOutBlock)
     i = []
     for p = get_inports(blk)
         line = get_line(p)
-        if typeof(line) == UndefLine
+        if typeof(line) != UndefLine
             push!(i, expr_setvalue(get_var(p), expr_refvalue(get_var(line))))
         end
     end
-    Expr(:block, i...)
+    b = []
+    for pin = get_inports(blk)
+        for pout = get_outports(blk)
+            push!(b, expr_setvalue(get_var(pout), expr_refvalue(get_var(pin))))
+        end
+    end
+    o = []
+    for p = get_outports(blk)
+        for line = get_lines(p)
+            push!(o, expr_setvalue(get_var(line), expr_refvalue(get_var(p))))
+        end
+    end
+    Expr(:block, i..., b..., o...)
 end
