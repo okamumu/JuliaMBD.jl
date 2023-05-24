@@ -145,6 +145,13 @@ function get_name(x::AbstractPort)
     get_name(get_var(x))
 end
 
+function get_name(x::UndefInPort)
+    :undef
+end
+
+function get_name(x::UndefOutPort)
+    :undef
+end
 
 """
     get_parent(x::AbstractPort)
