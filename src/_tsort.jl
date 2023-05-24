@@ -76,3 +76,89 @@ function _visit(n, check, l)
         pushfirst!(l, n)
     end
 end
+
+###
+
+export ExprPlain
+
+mutable struct ExprPlain <: AbstractExprBlock
+    env::Dict{Symbol,Any}
+    inports::Vector{AbstractInPort}
+    outports::Vector{AbstractOutPort}
+    default_inport::AbstractInPort
+    default_outport::AbstractOutPort
+    expr::Expr
+
+    function ExprPlain(;expr::Expr)
+        b = new()
+        b.env = Dict{Symbol,Any}()
+        b.inports = AbstractInPort[]
+        b.outports = AbstractOutPort[]
+        b.default_inport = UndefInPort()
+        b.default_outport = UndefOutPort()
+        b.expr = expr
+        b
+    end
+end
+
+"""
+    expr(b::AbstractExprBlock)
+
+A function to get Expr
+"""
+function expr(blk::ExprPlain)
+    blk.expr
+end
+
+"""
+    toexpr
+
+The function to gen Expr
+"""
+function toexpr(blks::Vector{AbstractBlock})
+    h = Dict()
+    inblocks = AbstractBlock[]
+    outblocks = AbstractBlock[]
+    for b = blks
+        h[b] = ExprPlain(expr=expr(b))
+        if typeof(b) <: AbstractInBlock
+            push!(inblocks, h[b])
+        elseif typeof(b) <: AbstractOutBlock
+            push!(outblocks, h[b])
+        end
+    end
+    for b = blks
+        for p = get_inports(b)
+            newp = copyport(p)
+            set_inport!(h[b], get_name(p), newp)
+        end
+        for p = get_outports(b)
+            newp = copyport(p)
+            set_outport!(h[b], get_name(p), newp)
+        end
+    end
+    visited = Set()
+    for b = blks
+        for p = get_inports(b)
+            if typeof(get_line(p)) != UndefLine
+                x = get_source(get_line(p))
+                if !in((p,x), visited)
+                    h[get_parent(x)].env[get_name(x)] => h[b].env[get_name(p)]
+                    push!(visited, (p,x))
+                end
+            end
+        end
+        for p = get_outports(b)
+            for line = get_lines(p)
+                x = get_target(line)
+                if !in((p,x), visited)
+                    h[b].env[get_name(p)] => h[get_parent(x)].env[get_name(x)]
+                    push!(visited, (p,x))
+                end
+            end
+        end
+    end
+    AbstractBlock[x for x = values(h)], inblocks, outblocks
+end
+
+

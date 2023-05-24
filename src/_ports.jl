@@ -223,6 +223,27 @@ function set_line!(x::AbstractOutPort, l::AbstractLine)
 end
 
 """
+    copyport(p)
+
+Copy an in/outport
+"""
+function copyport(p::InPort)
+    copyinport(get_var(p))
+end
+
+function copyport(p::OutPort)
+    copyoutport(get_var(p))
+end
+
+function copyinport(x::SymbolicValue{Tv}) where Tv
+    InPort(get_name(x), Tv)
+end
+
+function copyoutport(x::SymbolicValue{Tv}) where Tv
+    OutPort(get_name(x), Tv)
+end
+
+"""
    get_default_inport(p::AbstractInPort)
    get_default_outport(p::AbstractInPort)
 
