@@ -95,10 +95,12 @@ end
 
 A function to set inport.
 """
-function set_inport!(b::AbstractBlock, key::Symbol, p::AbstractInPort; default=false)
+function set_inport!(b::AbstractBlock, key::Symbol, p::AbstractInPort; default=false, parent=true)
     b.env[key] = p
     push!(b.inports, p)
-    set_parent!(p, b)
+    if parent
+        set_parent!(p, b)
+    end
     if default
         b.default_inport = p
     end
@@ -109,10 +111,12 @@ end
 
 A function to set outport.
 """
-function set_outport!(b::AbstractBlock, key::Symbol, p::AbstractOutPort; default=false)
+function set_outport!(b::AbstractBlock, key::Symbol, p::AbstractOutPort; default=false, parent=true)
     b.env[key] = p
     push!(b.outports, p)
-    set_parent!(p, b)
+    if parent
+        set_parent!(p, b)
+    end
     if default
         b.default_outport = p
     end
@@ -141,4 +145,13 @@ end
 
 function addblock!(blk::AbstractBlockDefinition, b::AbstractSystemBlock)
     push!(blk.blks, b.blks...)
+end
+
+"""
+   addblock!(blk::AbstractSystemBlock, b::AbstractBlock)
+
+The function to add a block
+"""
+function addblock!(blk::AbstractSystemBlock, b::AbstractBlock)
+    push!(blk.blks, b)
 end

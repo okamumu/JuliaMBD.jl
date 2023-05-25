@@ -2,8 +2,6 @@ module JuliaMBD
 
 include("_types.jl")
 
-const global_env = Dict{Symbol,AbstractBlockDefinition}()
-
 include("_parameters.jl")
 include("_ports.jl")
 include("_lines.jl")

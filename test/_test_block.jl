@@ -68,35 +68,4 @@ end
     @test f(123.0) == 1230.0
 end
 
-@testset "blk4" begin
-    i = InBlock(:x, outport=OutPort(:xtmp))
-    o = OutBlock(:y, inport=InPort(:ytmp))
-    g = ExprBlock(inports=(:x,), outports=(:y,), expr=:(y = K * x))
-    i => g => o
-
-    bdef = BlockDefinition(:Gain)
-    set_params!(bdef, SymbolicValue{Auto}(:K))
-    addblock!(bdef, i)
-    addblock!(bdef, o)
-    addblock!(bdef, g)
-
-    println(_compile_function_constructor(bdef))
-    println(_compile_function(bdef))
-    eval(_compile_function_constructor(bdef))
-    eval(_compile_function(bdef))
-
-    m = Gain(K = 10.0, x = InPort(:gin), y = OutPort(:gout))
-    xx = InPort(:xx)
-    yy = OutPort(:yy)
-
-    yy => m => xx
-
-    println(expr(m))
-
-    mm = Expr(:(=), :f, Expr(:(->), :yygin, expr(m)))
-    eval(mm)
-
-    @test f(123.0) == 1230.0
-end
-
 end

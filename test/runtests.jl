@@ -5,3 +5,4 @@ include("_test_lines.jl")
 
 include("_test_block.jl")
 include("_test_tsort.jl")
+include("_test_systemblock.jl")

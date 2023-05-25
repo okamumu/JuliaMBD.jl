@@ -38,6 +38,9 @@ function tsort(blks::Vector{AbstractBlock})
     l = []
     check = Dict()
     for n = blks
+        println("in tsort", n)
+        println("in tsort", expr(n))
+        println("in tsort", next(n))
         check[n] = 0
     end
     for n = blks
@@ -102,7 +105,7 @@ mutable struct ExprPlain <: AbstractExprBlock
 end
 
 """
-    expr(b::AbstractExprBlock)
+    expr(b::ExprPlain)
 
 A function to get Expr
 """
@@ -119,6 +122,7 @@ function toexpr(blks::Vector{AbstractBlock})
     h = Dict()
     inblocks = AbstractBlock[]
     outblocks = AbstractBlock[]
+    println("precompile", blks)
     for b = blks
         h[b] = ExprPlain(expr=expr(b))
         if typeof(b) <: AbstractInBlock
@@ -130,11 +134,13 @@ function toexpr(blks::Vector{AbstractBlock})
     for b = blks
         for p = get_inports(b)
             newp = copyport(p)
-            set_inport!(h[b], get_name(p), newp)
+            set_inport!(h[b], get_name(p), newp,
+                default=(get_name(get_default_inport(b)) == get_name(newp)))
         end
         for p = get_outports(b)
             newp = copyport(p)
-            set_outport!(h[b], get_name(p), newp)
+            set_outport!(h[b], get_name(p), newp,
+                default=(get_name(get_default_outport(b)) == get_name(newp)))
         end
     end
     visited = Set()
