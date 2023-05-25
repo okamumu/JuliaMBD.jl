@@ -1,20 +1,4 @@
-"""
-     UndefBlock
-
-A struct of UndefiedBlock
-"""
-struct UndefBlock <: AbstractBlock end
-
-"""
-    get_default_inport(b::UndefBlock)
-    get_default_outport(b::UndefBlock)
-
-Return a nothing as an instance of default in/out port.
-"""
-get_default_inport(b::UndefBlock) = nothing
-get_default_outport(b::UndefBlock) = nothing
-
-## overloads
+## IO
 
 function Base.show(io::IO, x::AbstractBlock)
     Base.show(io, "Block($(objectid(x)))")
@@ -47,10 +31,6 @@ A function to get params.
 function get_params(b::AbstractBlock)
     b.params
 end
-
-# function get_params(b::AbstractBlock, key::Symbol)
-#     b.params[key]
-# end
 
 """
     set_params!(b, key, val)
@@ -134,13 +114,13 @@ end
 function addblock!(blk::AbstractBlockDefinition, b::AbstractInBlock)
     push!(blk.blks, b)
     p = get_default_inport(b)
-    set_inport!(blk, get_name(p), p, default=(typeof(blk.default_inport) == UndefInPort), parent=false)
+    set_inport!(blk, get_name(p), p, default=isundef(get_default_inport(blk)), parent=false)
 end
 
 function addblock!(blk::AbstractBlockDefinition, b::AbstractOutBlock)
     push!(blk.blks, b)
     p = get_default_outport(b)
-    set_outport!(blk, get_name(p), p, default=(typeof(blk.default_outport) == UndefOutPort), parent=false)
+    set_outport!(blk, get_name(p), p, default=isundef(get_default_outport(blk)), parent=false)
 end
 
 function addblock!(blk::AbstractBlockDefinition, b::AbstractSystemBlock)

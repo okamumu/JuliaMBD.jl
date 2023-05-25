@@ -2,6 +2,8 @@
 export InPort
 export OutPort
 
+## IO
+
 function Base.show(io::IO, x::AbstractInPort)
     Base.show(io, "InPort($(get_name(x)))")
 end
@@ -9,15 +11,6 @@ end
 function Base.show(io::IO, x::AbstractOutPort)
     Base.show(io, "OutPort($(get_name(x)))")
 end
-
-"""
-     UndefInPort
-     UndefOutPort
-
-A struct of UndefiedPort
-"""
-struct UndefInPort <: AbstractInPort end
-struct UndefOutPort <: AbstractOutPort end
 
 """
     get_default_inport(b::UndefInPort)

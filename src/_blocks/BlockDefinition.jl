@@ -40,12 +40,12 @@ function _compile_inline_constructor(blk::AbstractBlockDefinition)
     definports3 = [:(set_inport!(b, $(Expr(:quote, get_name(x))), $(get_name(x)))) for x = blk.inports]
     defoutports1 = [Expr(:kw, :($(get_name(x))::AbstractOutPort), :(OutPort())) for x = blk.outports]
     defoutports3 = [:(set_outport!(b, $(Expr(:quote, get_name(x))), $(get_name(x)))) for x = blk.outports]
-    default1 = if typeof(blk.default_inport) != UndefInPort
+    default1 = if !isundef(get_default_inport(blk))
         :(b.default_inport = $(get_name(blk.default_inport)))
     else
         :()
     end
-    default2 = if typeof(blk.default_outport) != UndefOutPort
+    default2 = if !isundef(get_default_outport(blk))
         :(b.default_outport = $(get_name(blk.default_outport)))
     else
         :()
@@ -79,12 +79,12 @@ function _compile_function_constructor(blk::AbstractBlockDefinition)
     defoutports1 = [Expr(:kw, :($(get_name(x))::AbstractOutPort), :(OutPort())) for x = blk.outports]
     defoutports2 = [:(set_parent!($(get_name(x)), b)) for x = blk.outports]
     defoutports3 = [:(set_outport!(b, $(Expr(:quote, get_name(x))), $(get_name(x)))) for x = blk.outports]
-    default1 = if typeof(blk.default_inport) != UndefInPort
+    default1 = if !isundef(get_default_inport(blk))
         :(b.default_inport = $(get_name(blk.default_inport)))
     else
         :()
     end
-    default2 = if typeof(blk.default_outport) != UndefOutPort
+    default2 = if !isundef(get_default_outport(blk))
         :(b.default_outport = $(get_name(blk.default_outport)))
     else
         :()

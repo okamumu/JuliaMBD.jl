@@ -63,7 +63,7 @@ function expr(blk::AbstractInBlock)
     i = []
     for p = get_inports(blk)
         line = get_line(p)
-        if typeof(line) != UndefLine
+        if !isundef(line)
             push!(i, expr_setvalue(get_var(p), expr_refvalue(get_var(line))))
         end
     end
@@ -86,7 +86,7 @@ function expr(blk::AbstractOutBlock)
     i = []
     for p = get_inports(blk)
         line = get_line(p)
-        if typeof(line) != UndefLine
+        if !isundef(line)
             push!(i, expr_setvalue(get_var(p), expr_refvalue(get_var(line))))
         end
     end

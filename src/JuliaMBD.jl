@@ -1,10 +1,12 @@
 module JuliaMBD
 
 include("_types.jl")
+include("_undef.jl")
 
 include("_parameters.jl")
 include("_ports.jl")
 include("_lines.jl")
+
 
 include("_tsort.jl")
 include("_block_common.jl")

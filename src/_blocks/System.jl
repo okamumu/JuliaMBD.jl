@@ -34,8 +34,8 @@ mutable struct SystemBlock <: AbstractSystemBlock
         end
         for x = ins
             p = get_default_inport(x)
-            if typeof(p) != UndefInPort
-                if typeof(def.default_inport) != UndefInPort && get_name(def.default_inport) == get_name(p)
+            if !isundef(p)
+                if !isundef(get_default_inport(def)) && get_name(def.default_inport) == get_name(p)
                     set_inport!(b, get_name(p), p, default=true, parent=false)
                 else
                     set_inport!(b, get_name(p), p, default=false, parent=false)
@@ -44,8 +44,8 @@ mutable struct SystemBlock <: AbstractSystemBlock
         end
         for x = outs
             p = get_default_outport(x)
-            if typeof(p) != UndefOutPort
-                if typeof(def.default_outport) != UndefOutPort && get_name(p) == get_name(def.default_outport)
+            if !isundef(p)
+                if !isundef(get_default_outport(def)) && get_name(p) == get_name(def.default_outport)
                     set_outport!(b, get_name(p), p, default=true, parent=false)
                 else
                     set_outport!(b, get_name(p), p, default=false, parent=false)
@@ -65,7 +65,7 @@ function expr(blk::AbstractSystemBlock)
     i = []
     for p = get_inports(blk)
         line = get_line(p)
-        if typeof(line) != UndefLine
+        if !isundef(line)
             push!(i, expr_setvalue(get_var(p), expr_refvalue(get_var(line))))
         end
     end

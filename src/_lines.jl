@@ -1,13 +1,6 @@
 export Line
 
 """
-   UndefLine
-
-A type meaning Undef
-"""
-struct UndefLine <: AbstractLine end
-
-"""
    Line
 
 A mutable struct of Line to connect from outport to inport.

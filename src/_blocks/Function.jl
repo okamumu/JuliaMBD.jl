@@ -33,7 +33,7 @@ function expr(blk::AbstractFunctionBlock)
     for (k,x) = blk.env
         if typeof(x) <: AbstractInPort
             line = get_line(x)
-            if typeof(line) != UndefLine
+            if !isundef(line)
                 push!(i, expr_setvalue(get_var(x), expr_refvalue(get_var(line))))
             end
             push!(args, Expr(:kw, k, get_name(x)))
