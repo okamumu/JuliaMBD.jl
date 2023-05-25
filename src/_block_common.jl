@@ -123,15 +123,15 @@ function addblock!(blk::AbstractBlockDefinition, b::AbstractOutBlock)
     set_outport!(blk, get_name(p), p, default=isundef(get_default_outport(blk)), parent=false)
 end
 
-function addblock!(blk::AbstractBlockDefinition, b::AbstractSystemBlock)
+function addblock!(blk::AbstractBlockDefinition, b::AbstractInlineBlock)
     push!(blk.blks, b.blks...)
 end
 
 """
-   addblock!(blk::AbstractSystemBlock, b::AbstractBlock)
+   addblock!(blk::AbstractInlineBlock, b::AbstractBlock)
 
 The function to add a block
 """
-function addblock!(blk::AbstractSystemBlock, b::AbstractBlock)
+function addblock!(blk::AbstractInlineBlock, b::AbstractBlock)
     push!(blk.blks, b)
 end

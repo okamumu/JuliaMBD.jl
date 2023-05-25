@@ -1,10 +1,8 @@
 module TestSystemBlocks
 
 using JuliaMBD
-using JuliaMBD: ExprBlock, SystemBlock, InBlock, OutBlock, InlineBlock, FunctionBlock
-using JuliaMBD: set_params!, set_parent!, set_inport!, set_outport!, expr, addblock!, set_expr!
-using JuliaMBD: _compile_system_constructor, _compile_function, get_default_inport, get_default_outport
-using JuliaMBD: addblock!
+using JuliaMBD: set_params!, set_parent!, set_inport!, set_outport!, expr, addblock!
+using JuliaMBD: _compile_inline_constructor, _compile_function, get_default_inport, get_default_outport
 using Test
 
 @testset "blk2" begin
@@ -19,7 +17,7 @@ using Test
     addblock!(bdef, o)
     addblock!(bdef, g)
 
-    b = SystemBlock(bdef)
+    b = InlineBlock(bdef)
     println(b)
 
     println(expr(b))
@@ -45,8 +43,8 @@ end
     addblock!(bdef, o)
     addblock!(bdef, g)
 
-    println(_compile_system_constructor(bdef))
-    eval(_compile_system_constructor(bdef))
+    println(_compile_inline_constructor(bdef))
+    eval(_compile_inline_constructor(bdef))
     env = Dict()
     env[:Gain] = bdef
     m = Gain(env, K = 10.0)
@@ -71,8 +69,8 @@ end
     addblock!(bdef, i)
     addblock!(bdef, o)
     addblock!(bdef, g)
-    println(_compile_system_constructor(bdef))
-    eval(_compile_system_constructor(bdef))
+    println(_compile_inline_constructor(bdef))
+    eval(_compile_inline_constructor(bdef))
 
     env = Dict()
     env[:Gain] = bdef
@@ -95,7 +93,7 @@ end
     addblock!(bdef, i)
     addblock!(bdef, o)
     addblock!(bdef, g)
-    eval(_compile_system_constructor(bdef))
+    eval(_compile_inline_constructor(bdef))
     env[:SS] = bdef
 
     ss = SS(env, K=100.0)

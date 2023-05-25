@@ -1,8 +1,7 @@
 module TestBlocks
 
 using JuliaMBD
-using JuliaMBD: ExprBlock, SystemBlock, InBlock, OutBlock, InlineBlock, FunctionBlock
-using JuliaMBD: set_params!, set_parent!, set_inport!, set_outport!, expr, addblock!, set_expr!
+using JuliaMBD: set_params!, set_parent!, set_inport!, set_outport!, expr, addblock!
 using JuliaMBD: _compile_function_constructor, _compile_inline_constructor, _compile_function
 using JuliaMBD: next
 using Test
@@ -27,9 +26,12 @@ end
     addblock!(bdef, o)
     addblock!(bdef, g)
 
+    env = Dict()
+    env[:Gain] = bdef
+
     println(_compile_inline_constructor(bdef))
     eval(_compile_inline_constructor(bdef))
-    m = Gain(K = 10.0)
+    m = Gain(env, K = 10.0)
 
     println(expr(m))
     mm = Expr(:(=), :f, Expr(:(->), :x, expr(m)))
@@ -49,9 +51,12 @@ end
     addblock!(bdef, o)
     addblock!(bdef, g)
 
+    env = Dict()
+    env[:Gain] = bdef
+
     println(_compile_function_constructor(bdef))
-    println(_compile_function(bdef))
     eval(_compile_function_constructor(bdef))
+    println(_compile_function(bdef))
     eval(_compile_function(bdef))
 
     m = Gain(K = 10.0, x = InPort(:gin), y = OutPort(:gout))
