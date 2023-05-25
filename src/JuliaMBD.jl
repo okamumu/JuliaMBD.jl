@@ -11,6 +11,7 @@ include("_lines.jl")
 include("_tsort.jl")
 include("_block_common.jl")
 include("_blocks/Expr.jl")
+include("_blocks/ExprPlain.jl")
 include("_blocks/InOut.jl")
 
 include("_blocks/BlockDefinition.jl")

@@ -1,3 +1,8 @@
+export UndefInPort
+export UndefOutPort
+export UndefLine
+export UndefiedBlock
+
 """
      UndefInPort
      UndefOutPort
@@ -20,6 +25,33 @@ struct UndefLine <: AbstractLine end
 A struct of UndefiedBlock
 """
 struct UndefBlock <: AbstractBlock end
+
+"""
+    get_name(x::UndefInPort)
+    get_name(x::UndefOutPort)
+
+Get a name (Symbol).
+"""
+function get_name(x::UndefInPort)
+    :undef
+end
+
+function get_name(x::UndefOutPort)
+    :undef
+end
+
+"""
+    get_default_inport(b::UndefInPort)
+    get_default_inport(b::UndefOutPort)
+    get_default_outport(b::UndefInPort)
+    get_default_outport(b::UndefOutPort)
+
+Return a nothing as an instance of default in/out port.
+"""
+get_default_inport(b::UndefInPort) = nothing
+get_default_outport(b::UndefInPort) = nothing
+get_default_inport(b::UndefOutPort) = nothing
+get_default_outport(b::UndefOutPort) = nothing
 
 """
     get_default_inport(b::UndefBlock)

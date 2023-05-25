@@ -13,19 +13,6 @@ function Base.show(io::IO, x::AbstractOutPort)
 end
 
 """
-    get_default_inport(b::UndefInPort)
-    get_default_inport(b::UndefOutPort)
-    get_default_outport(b::UndefInPort)
-    get_default_outport(b::UndefOutPort)
-
-Return a nothing as an instance of default in/out port.
-"""
-get_default_inport(b::UndefInPort) = nothing
-get_default_outport(b::UndefInPort) = nothing
-get_default_inport(b::UndefOutPort) = nothing
-get_default_outport(b::UndefOutPort) = nothing
-
-"""
     InPort <: AbstractInPort
 
 The mutable struct for InPort. InPort corresponds to an argument of the function of block. The members are
@@ -149,14 +136,6 @@ Get a name (Symbol).
 """
 function get_name(x::AbstractPort)
     get_name(get_var(x))
-end
-
-function get_name(x::UndefInPort)
-    :undef
-end
-
-function get_name(x::UndefOutPort)
-    :undef
 end
 
 """
