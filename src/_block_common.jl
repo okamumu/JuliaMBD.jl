@@ -134,13 +134,13 @@ end
 function addblock!(blk::AbstractBlockDefinition, b::AbstractInBlock)
     push!(blk.blks, b)
     p = get_default_inport(b)
-    set_inport!(blk, get_name(p), p, default=(typeof(blk.default_inport) == UndefInPort))
+    set_inport!(blk, get_name(p), p, default=(typeof(blk.default_inport) == UndefInPort), parent=false)
 end
 
 function addblock!(blk::AbstractBlockDefinition, b::AbstractOutBlock)
     push!(blk.blks, b)
     p = get_default_outport(b)
-    set_outport!(blk, get_name(p), p, default=(typeof(blk.default_outport) == UndefOutPort))
+    set_outport!(blk, get_name(p), p, default=(typeof(blk.default_outport) == UndefOutPort), parent=false)
 end
 
 function addblock!(blk::AbstractBlockDefinition, b::AbstractSystemBlock)

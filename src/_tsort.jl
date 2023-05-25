@@ -38,9 +38,6 @@ function tsort(blks::Vector{AbstractBlock})
     l = []
     check = Dict()
     for n = blks
-        println("in tsort", n)
-        println("in tsort", expr(n))
-        println("in tsort", next(n))
         check[n] = 0
     end
     for n = blks
@@ -122,7 +119,6 @@ function toexpr(blks::Vector{AbstractBlock})
     h = Dict()
     inblocks = AbstractBlock[]
     outblocks = AbstractBlock[]
-    println("precompile", blks)
     for b = blks
         h[b] = ExprPlain(expr=expr(b))
         if typeof(b) <: AbstractInBlock
